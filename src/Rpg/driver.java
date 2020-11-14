@@ -2,91 +2,99 @@ import java.util.*;
 public class driver {
     static Scanner scan = new Scanner(System.in);
     static Random rand = new Random();
-    static dice die = new dice();
-    public static String playerName;
-    public static int playerhp;
-    public static int maxhp;
-    public static int maxmana;
-    public static int mana;
-    public static int playerdmg;
+    static dice Dmg = new dice();
+    public static String NazwaGracza;
+    public static int HpGracza;
+    public static int MaxHp;
+    public static int MaxMana;
+    public static int Mana;
+    public static int DmgGracza;
     public static int xp;
-    public static int enemyhp;
-    public static int enemydmg;
+    public static int HpPrzeciwnika;
+    public static int DmgPrzeciwnika;
     public static int Level;
-    public static String charclass;
+    public static String klasapostaci;
     public static boolean walka = false;
 
     private static void statystyki() {
-        if(charclass.equals("mag")){
-            System.out.println(playerName + "\nhp: " + playerhp + "\nmana: " + mana + "\ndamage: " + playerdmg + "\nxp: " + xp + "\n");
+        if(klasapostaci.equals("mag")){
+            System.out.println(NazwaGracza + "\nhp: " + HpGracza + "\nMana: " + Mana + "\ndamage: " + DmgGracza + "\nxp: " + xp + "\n");
+        }
+        if(klasapostaci.equals("wojownik")){
+            System.out.println(NazwaGracza + "\nhp: " + HpGracza + "\nMana: " + Mana + "\ndamage: " + DmgGracza + "\nxp: " + xp + "\n");
         }else{
-            System.out.println(playerName + "\nhp: " + playerhp + "\ndamage: " + playerdmg + "\nxp: " + xp + "\n");
+            System.out.println(NazwaGracza + "\nhp: " + HpGracza + "\ndamage: " + DmgGracza + "\nxp: " + xp + "\n");
         }
     }
     private static void StatystkiPrzeciwnika() {
-        System.out.println("Enemy "+"\nhp: " + enemyhp + "\ndmg: " + enemydmg + "\n");
+        System.out.println("Enemy "+"\nhp: " + HpPrzeciwnika + "\ndmg: " + DmgPrzeciwnika + "\n");
     }
 
     private static void Wojownik() {
-        charclass = "wojownik";
-        maxhp = 20;
-        playerhp = 20;
-        playerdmg = 4;
+        klasapostaci = "wojownik";
+        MaxHp = 20;
+        HpGracza = 20;
+        Mana = 20;
+        MaxMana = 20;
+        DmgGracza = 4;
         xp = 0;
         Level = 1;
     }
     private static void Łucznik() {
-        charclass = "łucznik";
-        maxhp = 14;
-        playerhp = 14;
-        playerdmg = 6;
+        klasapostaci = "łucznik";
+        MaxHp = 14;
+        HpGracza = 14;
+        DmgGracza = 6;
         xp = 0;
         Level = 1;
     }
     private static void Mag() {
-        charclass = "mag";
-        maxhp = 10;
-        playerhp = 10;
-        mana = 20;
-        maxmana = 20;
-        playerdmg = 2;
+        klasapostaci = "mag";
+        MaxHp = 10;
+        HpGracza = 10;
+        Mana = 20;
+        MaxMana = 20;
+        DmgGracza = 2;
         xp = 0;
         Level = 1;
     }
     private static void Przeciwnik() {
         switch(Level){
             case 1:
-                enemyhp = 9;
-                enemydmg = 1;
+                HpPrzeciwnika = 9;
+                DmgPrzeciwnika = 1;
                 break;
             case 2:
-                enemyhp = 19;
-                enemydmg = 4;
+                HpPrzeciwnika = 19;
+                DmgPrzeciwnika = 4;
                 break;
             case 3:
-                enemyhp = 24;
-                enemydmg = 6;
+                HpPrzeciwnika = 24;
+                DmgPrzeciwnika = 6;
                 break;
             case 4:
-                enemyhp = 32;
-                enemydmg = 7;
+                HpPrzeciwnika = 32;
+                DmgPrzeciwnika = 7;
                 break;
             case 5:
-                enemyhp = 40;
-                enemydmg = 9;
+                HpPrzeciwnika = 40;
+                DmgPrzeciwnika = 9;
                 break; //statystyki przeciwnika w zależności od levela postaci
         }
     }
     private static void fight() {
         String action;
-        String spellAction = null;
+        String Spell = null;
         System.out.println("Trafiłeś na przeciwnika!");
         Przeciwnik();
         walka = true;
         while(walka = true){
             System.out.println("Naciśnij 'a' żeby zaatakować\nNaciśnij 'i' żeby wyświetlić info");
-            if(charclass.equals("mage")){
+            if(klasapostaci.equals("mag")){
                 System.out.print("Naciśnij 's' żeby użyć umiejętnośći\n");
+            }
+            if(klasapostaci.equals("wojownik")){
+                System.out.print("Naciśnij 'b' żeby użyć umiejętnośći\n");
             }
             action = scan.nextLine();
             if(action.charAt(0) == 'a'){
@@ -110,7 +118,7 @@ public class driver {
                     LevelUp();
                     return;
                 }
-                enemyattack();
+                AtakEnemy();
             }
 
             if(action.charAt(0) == 'i'){
@@ -120,19 +128,21 @@ public class driver {
             }
             if(action.charAt(0) == 's'){
                 System.out.println("Naciśnij 'f' żeby użyć fireball'a\n naciśnij 'u' żeby się uleczyć\n");
-                spellAction = scan.nextLine();
-                if(spellAction.charAt(0) == 'f'){
-                    if(die.roll10() > 2){
-                        mana = mana - 10;
-                        if(mana <0){
+                Spell = scan.nextLine();
+                if(Spell.charAt(0) == 'f'){
+                    if(Dmg.roll10() > 2){
+                        Mana = Mana - 10;
+                        if(Mana <0){
                             System.out.println("Nie masz wystarczająco many!");
-                            mana = mana + 10;
+                            Mana = Mana + 10;
                             System.out.println("Twoja mana została odnowiona o 10!");
-                        }else{
-                            int k = die.roll10(); //Wybiera randomowy dmg od 1 do 10
+                        }
+
+                        else{
+                            int k = Dmg.roll10(); //Wybiera randomowy dmg od 1 do 10
                             System.out.println("Udeżyłeś za " + k + " obrażeń!");
-                            enemyhp = enemyhp - k;
-                            if(enemyhp <= 0){
+                            HpPrzeciwnika = HpPrzeciwnika - k;
+                            if(HpPrzeciwnika <= 0){
                                 System.out.println("Wygrałeś!");
                                 switch(Level){
                                     case 1:
@@ -148,96 +158,144 @@ public class driver {
                                         xp = xp + 12;
                                         break;
                                 }
+
                                 System.out.println("You earned :" + xp + " xp");
                                 LevelUp();
                                 return;
                             }
-                            enemyattack();
+                            AtakEnemy();
                         }
                     }
                     else{
                         System.out.println("Nie trafiłeś!");
-                        enemyattack();
+                        AtakEnemy();
                     }
                 }else
-                if(spellAction.charAt(0) == 'h'){
-                    mana = mana - 8;
-                    if(mana <0){
+                if(Spell.charAt(0) == 'u'){
+                    Mana = Mana - 8;
+                    if(Mana <0){
                         System.out.println("Nie masz wystarczająco many!");
-                        mana = mana + 8;
+                        Mana = Mana + 8;
                         System.out.println("Twoja mana została odnowiona o 8!");
                     }else{
-                        int x = die.roll10(); //healuje randomowo  1-8
+                        int x = Dmg.roll10(); //healuje randomowo  1-8
                         System.out.println("Wyleczyłeś się!");
                         System.out.println("+ " + x + " hp");
-                        playerhp = playerhp + x;
-                        if(playerhp>maxhp){
-                            playerhp = maxhp;
+                        HpGracza = HpGracza + x;
+                        if(HpGracza>MaxHp){
+                            HpGracza = MaxHp;
                         }
-                        enemyattack();
+                        AtakEnemy();
                     }
                 }
 
             }
+            if(action.charAt(0) == 'b'){
+                System.out.println("Naciśnij 's' żeby użyć szarży\n");
+                Spell = scan.nextLine();
+                if(Spell.charAt(0) == 's'){
+                    if(Dmg.roll10() > 2){
+                        Mana = Mana - 10;
+                        if(Mana <0){
+                            System.out.println("Nie masz wystarczająco many!");
+                            Mana = Mana + 10;
+                            System.out.println("Twoja mana została odnowiona o 10!");
+                        }
+
+                        else{
+                            int k = Dmg.roll10(); //Wybiera randomowy dmg od 1 do 10
+                            System.out.println("Udeżyłeś za " + k + " obrażeń!");
+                            HpPrzeciwnika = HpPrzeciwnika - k;
+                            if(HpPrzeciwnika <= 0){
+                                System.out.println("Wygrałeś!");
+                                switch(Level){
+                                    case 1:
+                                        xp = xp + 4;
+                                        break;
+                                    case 2:
+                                        xp = xp + 6;
+                                        break;
+                                    case 3:
+                                        xp = xp + 9;
+                                        break;
+                                    case 4:
+                                        xp = xp + 12;
+                                        break;
+                                }
+
+                                System.out.println("You earned :" + xp + " xp");
+                                LevelUp();
+                                return;
+                            }
+                            AtakEnemy();
+                        }
+                    }
+                    else{
+                        System.out.println("Nie trafiłeś!");
+                        AtakEnemy();
+                    }
+                }
+                }
+
+            }
         }
-    }
 
     private static void LevelUp() {
         if(xp >= 100 && Level == 4){
             System.out.println("Level 5!");
             Level = Level + 1;
-            maxhp = maxhp + 25;
-            playerhp = maxhp;
-            if(charclass.equals("mag")){
-                maxmana = maxmana + 7;
-                mana = maxmana;
+            MaxHp = MaxHp + 25;
+            HpGracza = MaxHp;
+            if(klasapostaci.equals("mag")){
+                MaxMana = MaxMana + 7;
+                Mana = MaxMana;
             }
-            playerdmg = playerdmg + 3;
+            DmgGracza = DmgGracza + 3;
             statystyki();
         }else
         if(xp >= 50 && Level == 3){
             System.out.println("Level 4!");
             Level = Level + 1;
-            maxhp = maxhp + 20;
-            playerhp = maxhp;
-            if(charclass.equals("mag")){
-                maxmana = maxmana + 7;
-                mana = maxmana;
+            MaxHp = MaxHp + 20;
+            HpGracza = MaxHp;
+            if(klasapostaci.equals("mag")){
+                MaxMana = MaxMana + 7;
+                Mana = MaxMana;
             }
-            playerdmg = playerdmg + 2;
+            DmgGracza = DmgGracza + 2;
             statystyki();
         }else
         if(xp >= 25 && Level == 2){
             System.out.println("Level 3!");
             Level = Level + 1;
-            maxhp = maxhp + 10;
-            playerhp = maxhp;
-            if(charclass.equals("mag")){
-                maxmana = maxmana + 7;
-                mana = maxmana;
+            MaxHp = MaxHp + 10;
+            HpGracza = MaxHp;
+            if(klasapostaci.equals("mag")){
+                MaxMana = MaxMana + 7;
+                Mana = MaxMana;
             }
-            playerdmg = playerdmg + 2;
+            DmgGracza = DmgGracza + 2;
             statystyki();
         }else
         if(xp >= 10 && Level == 1){
             System.out.println("Level 2!");
             Level = Level + 1;
-            maxhp = maxhp + 5;
-            playerhp = maxhp;
-            if(charclass.equals("mag")){
-                maxmana = maxmana + 7;
-                mana = maxmana;
+            MaxHp = MaxHp + 5;
+            HpGracza = MaxHp;
+            if(klasapostaci.equals("mag")){
+                MaxMana = MaxMana + 7;
+                Mana = MaxMana;
             }
-            playerdmg = playerdmg + 1;
+            DmgGracza = DmgGracza + 1;
             statystyki();
         }//Dodaje statystki wraz z rosnącym levelem
 
     }
-    private static void enemyattack() {
-        if(die.roll6() > 2){
-            System.out.println("Enemy hits!");
-            playerhp = playerhp - enemydmg;
-            if(playerhp <= 0){
+    private static void AtakEnemy() {
+        if(Dmg.roll6() > 2){
+            System.out.println("Przeciwnik traifł!");
+            HpGracza = HpGracza - DmgPrzeciwnika;
+            if(HpGracza <= 0){
                 gameover();
                 System.exit(0);//Gra się kończy wraz z hp  < 0
             }
@@ -246,10 +304,10 @@ public class driver {
         }
     }
     private static boolean attack() {
-        if(die.roll6() > 2){
+        if(Dmg.roll6() > 2){
             System.out.println("Trafiłeś!");
-            enemyhp = enemyhp - playerdmg;
-            if(enemyhp <= 0){
+            HpPrzeciwnika = HpPrzeciwnika - DmgGracza;
+            if(HpPrzeciwnika <= 0){
                 System.out.println("Wygrałeś!"); //Wyświetla się napis jeśli hp przeciwnika < 0
                 return false;
             }
@@ -260,35 +318,36 @@ public class driver {
     }
 
     private static void gameover() {
-        System.out.println(playerName + " Umrał!") ;
+        System.out.println(NazwaGracza + " Umrał!") ;
         System.out.println("Przegrałeś!");
         System.exit(0); //koniec jeśli przegrałeś
         return;
     }
     public static void main(String[] args) {
-        String charclass;
+        String klasapostaci;
         int num = 2;
         while(num > 1){
+            System.out.println("Rozpoczynasz swoją przygodę!\n ");
             System.out.println("Podaj swoje imię podróżniku!: ");
-            playerName = scan.nextLine();
+            NazwaGracza = scan.nextLine();
             System.out.println("Wybierz klase: ");
             System.out.println("'w' = Wojownik");
             System.out.println("'l' = Łucznik");
             System.out.println("'m' = Mag");
-            charclass = scan.nextLine();
-            while(charclass.charAt(0) != 'w' && charclass.charAt(0) != 'a' && charclass.charAt(0) != 'm'){
+            klasapostaci = scan.nextLine();
+            while(klasapostaci.charAt(0) != 'w' && klasapostaci.charAt(0) != 'a' && klasapostaci.charAt(0) != 'm'){
                 System.out.println("'w' = wojownika");
                 System.out.println("'l' = łucznika");
                 System.out.println("'m' = Maga");
-                charclass = scan.nextLine();
+                klasapostaci = scan.nextLine();
             }
-            if(charclass.charAt(0) == 'w'){
+            if(klasapostaci.charAt(0) == 'w'){
                 Wojownik();
             }
-            if(charclass.charAt(0) == 'a'){
+            if(klasapostaci.charAt(0) == 'a'){
                 Łucznik();
             }
-            if(charclass.charAt(0) == 'm'){
+            if(klasapostaci.charAt(0) == 'm'){
                 Mag();
             }
             statystyki();
